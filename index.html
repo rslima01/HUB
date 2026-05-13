@@ -3,179 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Itarget HUB | Command Center</title>
+    <title>Itarget HUB | Sistema de Ativação SOP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: #ffffff; }
-        .glass { background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
-        .sop-gradient-red { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); }
-        .sop-gradient-blue { background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%); }
-        .sidebar-item-active { background: rgba(255,255,255,0.05); border-right: 3px solid #ff416c; }
-        input, select { background: #121212 !important; border: 1px solid #252525 !important; color: white !important; }
-        input:focus { border-color: #ff416c !important; ring: 2px #ff416c; }
-        .persona-card:hover { border-color: #ff416c; transform: translateY(-2px); }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .sop-card { border-radius: 12px; background: white; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .layer-badge-infra { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        .layer-badge-regra { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .layer-badge-valor { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        .section-divider { border-left: 2px solid #e2e8f0; margin-left: 1.5rem; padding-left: 2rem; position: relative; }
+        .section-divider::before { content: ''; position: absolute; left: -9px; top: 0; width: 16px; height: 16px; background: white; border: 2px solid #cbd5e1; border-radius: 50%; }
+        input, select, textarea { border: 1px solid #cbd5e1 !important; border-radius: 6px !important; padding: 0.75rem !important; width: 100%; font-size: 0.875rem; }
+        .raci-tag { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
     </style>
 </head>
-<body class="overflow-hidden">
-    <div id="app" class="flex h-screen w-screen overflow-hidden">
+<body>
+    <div id="app" class="flex min-h-screen">
         
-        <aside class="w-72 glass flex flex-col border-r border-white/5 z-50">
-            <div class="p-6">
-                <div class="flex items-center gap-3 mb-10 group cursor-pointer">
-                    <div class="w-10 h-10 sop-gradient-red rounded-xl flex items-center justify-center shadow-lg shadow-red-500/20">
-                        <i data-lucide="layout-template" class="text-white w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-lg font-extrabold tracking-tight">HUB <span class="text-red-500 italic text-xs block -mt-1 uppercase tracking-widest">Blueprint</span></h1>
-                    </div>
-                </div>
-
-                <nav class="space-y-1">
-                    <p class="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4">Pipeline SOP</p>
-                    
-                    <div v-for="step in steps" :key="step.id" 
-                         @click="currentStep = step.id"
-                         :class="['flex items-center gap-4 px-4 py-3 rounded-lg cursor-pointer transition-all', currentStep === step.id ? 'sidebar-item-active' : 'hover:bg-white/5 text-gray-400']">
-                        <i :data-lucide="step.icon" class="w-5 h-5" :class="currentStep === step.id ? 'text-red-500' : ''"></i>
-                        <span class="text-sm font-semibold">{{ step.title }}</span>
-                        <i v-if="step.completed" data-lucide="check-circle" class="w-4 h-4 ml-auto text-green-500"></i>
-                    </div>
-                </nav>
+        <aside class="w-64 bg-white border-r border-slate-200 sticky top-0 h-screen p-6 flex flex-col">
+            <div class="mb-10">
+                <img src="https://itarget.com.br/wp-content/uploads/2021/04/logo-itarget.png" class="w-28 mb-2">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">SOP Hub Activator</p>
             </div>
 
-            <div class="mt-auto p-6 space-y-4">
-                <div class="p-4 rounded-xl bg-red-500/5 border border-red-500/10">
-                    <p class="text-[10px] text-red-500 font-bold uppercase mb-2">Responsabilidade Atual</p>
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                        <span class="text-xs font-medium">Consultor Itarget</span>
-                    </div>
+            <nav class="flex-1 space-y-1">
+                <p class="text-[10px] font-extrabold text-slate-400 uppercase mb-4 tracking-tighter">Sumário de Execução</p>
+                <a v-for="link in navLinks" :href="link.href" class="block py-2 text-sm text-slate-600 hover:text-red-600 font-medium transition-colors">
+                    {{ link.label }}
+                </a>
+            </nav>
+
+            <div class="pt-6 border-t border-slate-100">
+                <div class="bg-slate-50 p-3 rounded-lg text-center">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase">Status Global</p>
+                    <p class="text-xs font-bold text-orange-600">65% Configurado</p>
                 </div>
             </div>
         </aside>
 
-        <main class="flex-1 flex flex-col relative overflow-hidden">
+        <main class="flex-1 p-12 max-w-6xl mx-auto">
             
-            <header class="h-20 glass border-b border-white/5 flex items-center justify-between px-10">
-                <div class="flex items-center gap-4">
-                    <span class="text-xs text-gray-500 uppercase tracking-widest">Ambiente:</span>
-                    <select class="bg-transparent text-sm font-bold outline-none border-none cursor-pointer">
-                        <option>Configuração Principal</option>
-                        <option>Sandbox Estendido</option>
-                    </select>
+            <header class="mb-16">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="raci-tag bg-slate-800 text-white">Documento Ativo</span>
+                    <span class="text-slate-400 text-sm">/ SOP-HUB-2026-V1</span>
                 </div>
-                <div class="flex items-center gap-6">
-                    <div class="flex -space-x-2">
-                        <div v-for="i in 3" :key="i" class="w-8 h-8 rounded-full border-2 border-black bg-gray-800 flex items-center justify-center text-[10px] font-bold">U{{i}}</div>
-                    </div>
-                    <button class="bg-white text-black px-6 py-2 rounded-full text-xs font-extrabold hover:bg-red-500 hover:text-white transition-all">FINALIZAR SOP</button>
-                </div>
+                <h1 class="text-5xl font-black text-slate-900 tracking-tighter mb-4 leading-none">Configuração Estrutural HUB</h1>
+                <p class="text-slate-500 text-lg max-w-3xl leading-relaxed">
+                    Este documento consolida as Camadas 1, 2 e 3 para ativação autônoma. Siga o fluxo vertical para garantir que as regras de negócio do iCase/iCongresso reflitam na vitrine.
+                </p>
             </header>
 
-            <section class="flex-1 overflow-y-auto p-12 bg-[#080808]">
-                <div class="max-w-5xl mx-auto">
-                    
-                    <div class="mb-12 animate__animated animate__fadeIn">
-                        <div class="flex items-center gap-3 mb-2 font-mono text-[11px]">
-                            <span class="text-red-500 font-bold px-2 py-0.5 border border-red-500/30 rounded">CAMADA {{currentStep}}</span>
-                            <span class="text-gray-600">|</span>
-                            <span class="text-gray-400 uppercase tracking-widest">{{ steps[currentStep-1].layer }}</span>
+            <section id="infra" class="mb-20">
+                <div class="flex items-center gap-4 mb-8">
+                    <span class="layer-badge-infra px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">🔴 Camada 1: INFRAESTRUTURA</span>
+                    <div class="h-px bg-slate-200 flex-1"></div>
+                </div>
+
+                <div class="section-divider space-y-10">
+                    <div class="sop-card p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-xl font-bold flex items-center gap-2"><i data-lucide="server" class="w-5 h-5 text-red-600"></i> Setup de Domínio & API</h3>
+                            <span class="raci-tag border border-slate-200 text-slate-500">RACI: Time Técnico</span>
                         </div>
-                        <h2 class="text-5xl font-extrabold tracking-tighter">{{ steps[currentStep-1].title }}</h2>
-                        <p class="text-gray-500 mt-4 text-lg leading-relaxed">{{ steps[currentStep-1].desc }}</p>
+                        <div class="grid grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Domínio Principal</label>
+                                <input type="text" value="hub.entidade.com.br" readonly class="bg-slate-50">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Ambiente iCongresso</label>
+                                <input type="text" value="https://api.icongresso.com.br/v3" readonly class="bg-slate-50">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">SSL/HTTPS</label>
+                                <div class="p-3 bg-green-50 text-green-700 text-xs font-bold rounded border border-green-200 flex items-center gap-2">
+                                    <i data-lucide="shield-check" class="w-4 h-4"></i> CERTIFICADO ATIVO
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div v-if="currentStep === 2" class="grid grid-cols-12 gap-8 animate__animated animate__fadeInUp">
-                        
-                        <div class="col-span-8 space-y-8">
-                            <div class="glass p-8 rounded-3xl space-y-8">
-                                <h4 class="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                                    <i data-lucide="file-text" class="w-4 h-4"></i> Identidade & Fluxo Global
-                                </h4>
-                                
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div class="space-y-2">
-                                        <label class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">Nome da Vitrine (Hotsite)</label>
-                                        <input type="text" v-model="form.name" class="w-full p-4 rounded-xl text-sm" placeholder="Ex: Portal de Eventos Itarget">
-                                    </div>
-                                    <div class="space-y-2">
-                                        <label class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">ID do Google Analytics</label>
-                                        <input type="text" class="w-full p-4 rounded-xl text-sm" placeholder="UA-XXXXX-X">
-                                    </div>
-                                    <div class="col-span-2 space-y-2">
-                                        <label class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">URL de Retorno Pós-Pagamento</label>
-                                        <input type="text" class="w-full p-4 rounded-xl text-sm" value="https://hub.entidade.com.br/sucesso">
-                                    </div>
+                    <div class="sop-card p-8">
+                        <h3 class="text-xl font-bold mb-6">Contatos & Responsáveis Administrativos</h3>
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <p class="text-xs font-bold text-slate-400 uppercase border-b pb-2">Coordenador do Projeto (Itarget)</p>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <input type="text" placeholder="Nome">
+                                    <input type="text" placeholder="E-mail">
                                 </div>
                             </div>
-
-                            <div class="glass p-8 rounded-3xl space-y-8">
-                                <div class="flex justify-between items-end">
-                                    <h4 class="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                                        <i data-lucide="cpu" class="w-4 h-4"></i> Configuração de Personas (Regras SOP)
-                                    </h4>
-                                    <span class="text-[10px] text-red-500 font-bold border-b border-red-500/20">Validação do Cliente Obrigatória</span>
-                                </div>
-
-                                <div class="grid grid-cols-1 gap-4">
-                                    <div v-for="persona in personas" :key="persona.id" 
-                                         class="persona-card p-5 glass border border-white/5 rounded-2xl flex items-center justify-between transition-all group">
-                                        <div class="flex items-center gap-4">
-                                            <div :class="['w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg', persona.colorClass]">
-                                                {{ persona.initial }}
-                                            </div>
-                                            <div>
-                                                <p class="font-bold text-sm text-white">{{ persona.name }}</p>
-                                                <p class="text-[11px] text-gray-500">{{ persona.rule }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-right flex items-center gap-4">
-                                            <div class="hidden group-hover:block">
-                                                <button class="text-[10px] bg-white/10 px-3 py-1 rounded-full uppercase font-bold hover:bg-red-500 transition-all">Editar Impacto</button>
-                                            </div>
-                                            <label class="relative inline-flex items-center cursor-pointer">
-                                                <input type="checkbox" checked class="sr-only peer">
-                                                <div class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-red-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
-                                            </label>
-                                        </div>
-                                    </div>
+                            <div class="space-y-4">
+                                <p class="text-xs font-bold text-slate-400 uppercase border-b pb-2">Responsável na Entidade (Cliente)</p>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <input type="text" placeholder="Nome">
+                                    <input type="text" placeholder="E-mail">
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-span-4 space-y-6">
-                            <div class="glass p-6 rounded-3xl border-l-4 border-red-500">
-                                <h5 class="text-xs font-bold text-white mb-3 uppercase tracking-tighter">Status da Implantação</h5>
-                                <div class="space-y-4">
-                                    <div class="flex justify-between text-[11px]">
-                                        <span class="text-gray-500 font-bold">Complexidade:</span>
-                                        <span class="text-red-500 font-bold">NÍVEL 2 (Core)</span>
-                                    </div>
-                                    <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                                        <div class="bg-red-500 h-full w-2/3"></div>
-                                    </div>
-                                    <p class="text-[10px] text-gray-500 italic leading-relaxed italic">
-                                        "O sistema iCase e iCongresso já estão integrados via Centro de Custo 01. Configure as regras acima para liberar o HUB."
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="glass p-6 rounded-3xl space-y-4">
-                                <p class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">Módulos Conectados</p>
-                                <div v-for="m in ['Associação', 'Cursos', 'Eventos']" class="flex items-center gap-3 p-3 bg-black/50 rounded-xl border border-white/5">
-                                    <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
-                                    <span class="text-xs font-semibold text-gray-300">{{ m }}</span>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
             </section>
+
+            <section id="regra" class="mb-20">
+                <div class="flex items-center gap-4 mb-8">
+                    <span class="layer-badge-regra px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">🔴 Camada 2: REGRAS DE NEGÓCIO</span>
+                    <div class="h-px bg-slate-200 flex-1"></div>
+                </div>
+
+                <div class="section-divider space-y-10">
+                    <div class="sop-card p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-xl font-bold">Identidade da Vitrine & Branding</h3>
+                            <span class="raci-tag bg-blue-100 text-blue-700">RACI: Cliente</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-10">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Logotipo Principal (PNG 200x100)</label>
+                                    <div class="border-2 border-dashed border-slate-200 rounded-lg p-10 text-center hover:bg-slate-50 cursor-pointer transition-all">
+                                        <i data-lucide="image" class="w-8 h-8 mx-auto text-slate-300 mb-2"></i>
+                                        <p class="text-xs text-slate-500 font-medium">Clique para fazer upload</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Paleta de Cores (Cores do Tema)</label>
+                                    <div class="flex gap-4">
+                                        <div class="flex-1"><input type="color" class="h-12 w-full"> <p class="text-[10px] text-center mt-1">Primária</p></div>
+                                        <div class="flex-1"><input type="color" class="h-12 w-full" value="#ff0000"> <p class="text-[10px] text-center mt-1">Secundária</p></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Sigla da Entidade</label>
+                                    <input type="text" placeholder="Ex: SBD, SOBRAC, etc.">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sop-card p-8 bg-slate-900 text-white shadow-2xl">
+                        <h3 class="text-xl font-bold mb-2">Motor de Regras: Personas & Visibilidade</h3>
+                        <p class="text-slate-400 text-sm mb-8 italic">Define o que o usuário vê baseado na situação financeira/vínculo.</p>
+                        
+                        <div class="overflow-hidden rounded-xl border border-white/10">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-white/5 text-slate-400 text-[10px] uppercase font-black tracking-widest">
+                                    <tr>
+                                        <th class="p-4">Persona</th>
+                                        <th class="p-4">Regra no Banco</th>
+                                        <th class="p-4">Comportamento no HUB</th>
+                                        <th class="p-4">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-white/5">
+                                    <tr v-for="persona in personas" :key="persona.id" class="hover:bg-white/5 transition-colors">
+                                        <td class="p-4 font-bold">{{ persona.name }}</td>
+                                        <td class="p-4 text-xs text-slate-400 font-mono">{{ persona.rule }}</td>
+                                        <td class="p-4 text-xs">{{ persona.impact }}</td>
+                                        <td class="p-4 text-right">
+                                            <label class="relative inline-flex items-center cursor-pointer">
+                                                <input type="checkbox" checked class="sr-only peer">
+                                                <div class="w-8 h-4 bg-slate-700 rounded-full peer peer-checked:bg-red-500 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4"></div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="sop-card p-8">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i data-lucide="credit-card" class="w-5 h-5"></i> Gestão Financeira (Checkout)</h3>
+                        <div class="grid grid-cols-3 gap-8">
+                            <div class="p-4 bg-slate-50 rounded-lg">
+                                <p class="text-xs font-bold mb-3 uppercase tracking-widest">Gateway Principal</p>
+                                <select>
+                                    <option>Vindi (Recomendado)</option>
+                                    <option>Cielo E-commerce</option>
+                                    <option>PagSeguro</option>
+                                    <option>Itaú Shopline</option>
+                                </select>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-lg">
+                                <p class="text-xs font-bold mb-3 uppercase tracking-widest">Boletos</p>
+                                <select>
+                                    <option>Registro Automático (CNAB 240)</option>
+                                    <option>Emissão Manual</option>
+                                </select>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-lg">
+                                <p class="text-xs font-bold mb-3 uppercase tracking-widest">Parcelamento</p>
+                                <input type="number" placeholder="Qtd máxima parcelas" class="mb-2">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" class="w-4 h-4"> <span class="text-[10px] font-bold">Repassar Juros</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="valor" class="mb-20 pb-20">
+                <div class="flex items-center gap-4 mb-8">
+                    <span class="layer-badge-valor px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">🔵 Camada 3: VALOR E MÓDULOS</span>
+                    <div class="h-px bg-slate-200 flex-1"></div>
+                </div>
+
+                <div class="section-divider space-y-10">
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="sop-card p-8 border-l-4 border-blue-500">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="text-lg font-bold">Módulo Cashback</h4>
+                                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-[10px] font-black uppercase">Opcional</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mb-6">Permite converter valores de inscrições em créditos para renovação de anuidade.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-[10px] font-bold uppercase text-slate-400">Percentual de Retorno (%)</label>
+                                    <input type="number" placeholder="Ex: 10%">
+                                </div>
+                                <button class="w-full py-2 bg-blue-600 text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition-all">Ativar no Contrato</button>
+                            </div>
+                        </div>
+
+                        <div class="sop-card p-8 border-l-4 border-blue-500">
+                            <h4 class="text-lg font-bold mb-2">Venda Casada (Combos)</h4>
+                            <p class="text-xs text-slate-500 mb-6">Inscrição + Anuidade ou Curso + EAD com descontos progressivos.</p>
+                            <div class="p-4 border border-dashed border-slate-200 rounded-lg text-center cursor-pointer hover:bg-slate-50">
+                                <i data-lucide="plus-circle" class="w-6 h-6 mx-auto text-slate-300 mb-2"></i>
+                                <span class="text-xs font-bold text-slate-400">Criar Nova Regra de Combo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
@@ -184,26 +252,23 @@
         createApp({
             data() {
                 return {
-                    currentStep: 2,
-                    steps: [
-                        { id: 1, title: 'Infraestrutura', layer: 'CORE / INFRA', icon: 'server', completed: true, desc: 'Configurações de servidor, domínios e integração de banco de dados.' },
-                        { id: 2, title: 'Regras de Negócio', layer: 'CORE / REGRA', icon: 'settings-2', completed: false, desc: 'O coração da vitrine. Aqui definimos como o HUB reage ao status de cada associado.' },
-                        { id: 3, title: 'Valor & Módulos', layer: 'BUSINESS / VALOR', icon: 'rocket', completed: false, desc: 'Potencialize o HUB com cashback, cupons e inteligência de vendas.' }
+                    navLinks: [
+                        { label: '1. Setup Infra & DNS', href: '#infra' },
+                        { label: '2. Branding & Identidade', href: '#regra' },
+                        { label: '3. Motor de Personas', href: '#regra' },
+                        { label: '4. Financeiro & Checkout', href: '#regra' },
+                        { label: '5. Módulos Estratégicos', href: '#valor' }
                     ],
                     personas: [
-                        { id: 1, name: 'Sócio Quite / Em Dia', initial: 'Q', rule: 'Exibir preços exclusivos + Acesso a Streaming', colorClass: 'bg-green-500/20 text-green-500' },
-                        { id: 2, name: 'Inadimplente (Débito)', initial: 'D', rule: 'Exibir Banner de Cobrança + Sugerir Combo Anuidade', colorClass: 'bg-red-500/20 text-red-500' },
-                        { id: 3, name: 'Não Associado (Público)', initial: 'P', rule: 'Exibir Botão "Associe-se" + Preço Cheio', colorClass: 'bg-blue-500/20 text-blue-500' }
-                    ],
-                    form: {
-                        name: 'HUB Itarget Tecnologia'
-                    }
+                        { id: 1, name: 'Não Associado', rule: 'Vínculo: Null', impact: 'Vê preços de "Não Sócio" e botões de "Associe-se"' },
+                        { id: 2, name: 'Sócio em Dia', rule: 'Financ: E', impact: 'Vê preços de Sócio e menus de área restrita' },
+                        { id: 3, name: 'Sócio Quite', rule: 'Financ: Q', impact: 'Máxima liberação. Vê preços exclusivos e acessos totais.' },
+                        { id: 4, name: 'Inadimplente', rule: 'Financ: D', impact: 'Banners de dívida e trava de inscrição obrigatória.' },
+                        { id: 5, name: 'Renovação', rule: 'Financ: < 30 dias', impact: 'Alerta preventivo de vencimento de anuidade.' }
+                    ]
                 }
             },
             mounted() {
-                lucide.createIcons();
-            },
-            updated() {
                 lucide.createIcons();
             }
         }).mount('#app')
