@@ -3,81 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Itarget Hub Manager - Onboarding</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Itarget Hub OS | Painel de Ativação</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
-        :root { --it-red: #d32f2f; --it-blue: #1976d2; --it-gray: #f5f5f5; }
-        body { background-color: var(--it-gray); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .step-card { border-radius: 15px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .badge-core-infra { background-color: #ffcdd2; color: #b71c1c; }
-        .badge-core-regra { background-color: #ef9a9a; color: #b71c1c; }
-        .badge-business { background-color: #bbdefb; color: #0d47a1; }
-        .header-hub { background: #212121; color: white; padding: 20px 0; margin-bottom: 30px; }
+        .sop-step-active { border-left: 4px solid #ef4444; background: #fff5f5; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+        .bg-itarget { background-color: #1a1a1a; }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        .active-pulse { animation: pulse-red 2s infinite; }
     </style>
 </head>
-<body>
-
-<div class="header-hub">
-    <div class="container text-center">
-        <h1>Itarget HUB</h1>
-        <p>Configuração Autônoma de Vitrine</p>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card step-card p-3">
-                <h5>Progresso da Implantação</h5>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">✅ Camada 1: Infra (Concluído)</li>
-                    <li class="list-group-item">🔵 <strong>Camada 2: Regras (Em andamento)</strong></li>
-                    <li class="list-group-item text-muted">⚪ Camada 3: Valor (Bloqueado)</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div class="card step-card p-4 border-start border-danger border-5">
-                <span class="badge badge-core-regra mb-2" style="width: fit-content;">🔴 CORE / REGRA (Obrigatório)</span>
-                <h4>Configuração da Vitrine</h4>
-                <p class="text-muted small">Defina como seus produtos serão exibidos no HUB.</p>
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Nome da sua Vitrine</label>
-                        <input type="text" class="form-control" placeholder="Ex: Portal de Membros SBD">
-                    </div>
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input" type="checkbox" id="checkAnuidade" checked>
-                        <label class="form-check-label">Exibir cobrança de anuidade automaticamente?</label>
-                    </div>
-                    <button class="btn btn-danger">Salvar Configurações</button>
-                </form>
-            </div>
-
-            <div class="card step-card p-4 border-start border-primary border-5 opacity-75">
-                <span class="badge badge-business mb-2" style="width: fit-content;">🔵 BUSINESS / VALOR (Estratégico)</span>
-                <h4>Módulos Adicionais</h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="border p-3 rounded text-center">
-                            <h6>Cashback</h6>
-                            <p class="small text-muted">Retenha sócios com pontos.</p>
-                            <button class="btn btn-outline-primary btn-sm">Ativar Módulo</button>
+<body class="bg-gray-100 font-sans antialiased">
+    <div id="app" class="min-h-screen flex">
+        
+        <aside class="w-80 bg-itarget text-white flex flex-col shadow-2xl">
+            <div class="p-6">
+                <img src="https://itarget.com.br/wp-content/uploads/2021/04/logo-itarget.png" alt="Itarget" class="w-32 mb-8 invert">
+                <h2 class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">Metodologia SOP</h2>
+                
+                <nav class="space-y-2">
+                    <div v-for="step in steps" :key="step.id" 
+                         :class="['p-4 rounded-lg transition-all cursor-pointer', currentStep === step.id ? 'sop-step-active text-red-600' : 'text-gray-400 hover:bg-gray-800']"
+                         @click="setStep(step.id)">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-lg"><i :class="step.icon"></i></span>
+                            <div>
+                                <p class="text-sm font-bold">{{ step.title }}</p>
+                                <p class="text-xs opacity-60">{{ step.layer }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="border p-3 rounded text-center">
-                            <h6>Combos</h6>
-                            <p class="small text-muted">Descontos em múltiplos cursos.</p>
-                            <button class="btn btn-outline-primary btn-sm">Configurar</button>
-                        </div>
-                    </div>
+                </nav>
+            </div>
+            
+            <div class="mt-auto p-6 bg-black/20 border-t border-white/10 text-xs">
+                <p class="font-bold mb-2">Matriz de Responsabilidade (RACI)</p>
+                <div class="flex space-x-2">
+                    <span class="bg-red-900 px-2 py-1 rounded text-red-200">Consultor</span>
+                    <span class="bg-blue-900 px-2 py-1 rounded text-blue-200">Cliente</span>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </aside>
 
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white h-16 border-b flex items-center justify-between px-8 shadow-sm">
+                <div class="flex items-center space-x-4 text-sm">
+                    <span class="text-gray-500">Projeto:</span>
+                    <span class="font-bold">Implantação HUB - Sociedade Médica X</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-all font-medium">
+                        Publicar HUB (Go-Live)
+                    </button>
+                </div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+                
+                <div class="max-w-4xl mx-auto">
+                    <section v-if="currentStep === 1" class="space-y-6">
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                            <div class="flex justify-between items-start mb-6">
+                                <div>
+                                    <h2 class="text-2xl font-bold text-gray-800">Camada 1: Infraestrutura</h2>
+                                    <p class="text-gray-500">Configurações core processadas pela Itarget.</p>
+                                </div>
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Status: Concluído</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                                    <p class="text-xs text-gray-400 uppercase font-bold mb-1">Provisionamento DNS</p>
+                                    <p class="text-sm font-mono text-gray-700">hub.entidade.com.br <i class="fa-solid fa-check text-green-500 ml-2"></i></p>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                                    <p class="text-xs text-gray-400 uppercase font-bold mb-1">Integração iCase/iCongresso</p>
+                                    <p class="text-sm font-mono text-gray-700">Conexão Estabilizada <i class="fa-solid fa-link text-green-500 ml-2"></i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section v-if="currentStep === 2" class="space-y-6">
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Camada 2: Regras de Negócio</h2>
+                            <p class="text-gray-500 mb-8">Defina os parâmetros de comercialização da vitrine.</p>
+                            
+                            <div class="space-y-8">
+                                <div>
+                                    <h3 class="font-bold text-gray-700 border-b pb-2 mb-4">Motor de Regras (Persona)</h3>
+                                    <div class="grid grid-cols-1 gap-6">
+                                        <div class="flex items-center justify-between p-4 bg-red-50 rounded-xl">
+                                            <div>
+                                                <p class="font-bold text-red-900">Sócio Inadimplente</p>
+                                                <p class="text-xs text-red-700">Bloquear acesso ao conteúdo pago automaticamente?</p>
+                                            </div>
+                                            <label class="relative inline-flex items-center cursor-pointer">
+                                                <input type="checkbox" v-model="form.lockUnpaid" class="sr-only peer">
+                                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 class="font-bold text-gray-700 border-b pb-2 mb-4">Identidade da Vitrine</h3>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Título da Loja</label>
+                                            <input type="text" v-model="form.hubName" class="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-red-500 outline-none">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Centro de Custo Principal</label>
+                                            <select class="w-full border rounded-lg p-3 text-sm">
+                                                <option>001 - Anuidades Entidade</option>
+                                                <option>002 - Eventos Internacionais</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section v-if="currentStep === 3" class="space-y-6">
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2 text-blue-600">Camada 3: Valor & Estratégia</h2>
+                            <p class="text-gray-500 mb-8">Ative recursos avançados para maturidade digital.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="p-6 border rounded-2xl hover:border-blue-500 transition-all cursor-pointer group shadow-sm">
+                                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4 text-xl group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                        <i class="fa-solid fa-coins"></i>
+                                    </div>
+                                    <h4 class="font-bold text-gray-800 mb-2">Módulo Cashback</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed">Converta parte do valor de inscrições em crédito para anuidade.</p>
+                                    <button class="mt-4 text-sm font-bold text-blue-600 uppercase tracking-tighter">Ativar no Contrato</button>
+                                </div>
+
+                                <div class="p-6 border rounded-2xl hover:border-blue-500 transition-all cursor-pointer group shadow-sm">
+                                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center mb-4 text-xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                                        <i class="fa-solid fa-layer-group"></i>
+                                    </div>
+                                    <h4 class="font-bold text-gray-800 mb-2">Combos Dinâmicos</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed">Ex: Evento + Renovação de Anuidade com 20% de desconto.</p>
+                                    <button class="mt-4 text-sm font-bold text-indigo-600 uppercase tracking-tighter">Configurar Combos</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <footer class="bg-white border-t p-4 px-8 flex justify-between items-center text-xs">
+                <div class="flex items-center space-x-6">
+                    <span class="flex items-center"><i class="fa-solid fa-circle text-red-500 mr-2"></i> SOP Ativo</span>
+                    <span class="text-gray-400">Versão do Documento: 1.0.0-SOP-HUB</span>
+                </div>
+                <div class="text-gray-400">
+                    &copy; 2024 Itarget Tecnologia - Metodologia de Implantação Ágil
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+        createApp({
+            data() {
+                return {
+                    currentStep: 2,
+                    steps: [
+                        { id: 1, title: 'Infraestrutura', layer: '🔴 CORE INFRA', icon: 'fa-solid fa-server' },
+                        { id: 2, title: 'Parametrização', layer: '🔴 CORE REGRA', icon: 'fa-solid fa-gears' },
+                        { id: 3, title: 'Estratégia/Valor', layer: '🔵 BUSINESS VALOR', icon: 'fa-solid fa-rocket' }
+                    ],
+                    form: {
+                        hubName: 'Minha Vitrine HUB',
+                        lockUnpaid: true
+                    }
+                }
+            },
+            methods: {
+                setStep(id) {
+                    this.currentStep = id;
+                }
+            }
+        }).mount('#app')
+    </script>
 </body>
 </html>
