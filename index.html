@@ -3,210 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Itarget HUB OS | Configuração Estratégica</title>
+    <title>Itarget HUB | Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e5e5e5; }
-        .glass { background: rgba(23, 23, 23, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .step-active { border-left: 4px solid #ef4444; background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, transparent 100%); }
-        .input-dark { background: #171717; border: 1px solid #333; border-radius: 8px; padding: 10px; color: white; outline: none; }
-        .input-dark:focus { border-color: #ef4444; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2); }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: #ffffff; }
+        .glass { background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
+        .sop-gradient-red { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); }
+        .sop-gradient-blue { background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%); }
+        .sidebar-item-active { background: rgba(255,255,255,0.05); border-right: 3px solid #ff416c; }
+        input, select { background: #121212 !important; border: 1px solid #252525 !important; color: white !important; }
+        input:focus { border-color: #ff416c !important; ring: 2px #ff416c; }
+        .persona-card:hover { border-color: #ff416c; transform: translateY(-2px); }
     </style>
 </head>
-<body class="h-screen overflow-hidden flex">
-
-    <aside class="w-72 glass h-screen flex flex-col border-r border-white/5">
-        <div class="p-8">
-            <div class="flex items-center gap-3 mb-10">
-                <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center font-bold text-xl tracking-tighter">iH</div>
-                <h1 class="text-xl font-bold tracking-tight">HUB <span class="text-red-500 text-xs font-light block tracking-widest uppercase">Activator OS</span></h1>
-            </div>
-
-            <nav class="space-y-6">
-                <div>
-                    <h3 class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-4">Metodologia SOP</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li class="p-3 rounded-lg flex items-center gap-3 cursor-pointer hover:bg-white/5 transition-all text-gray-400">
-                            <i data-lucide="database" class="w-4 h-4"></i> Camada 1: Infra <span class="ml-auto text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded">OK</span>
-                        </li>
-                        <li class="p-3 rounded-lg flex items-center gap-3 cursor-pointer step-active text-white font-semibold">
-                            <i data-lucide="settings-2" class="w-4 h-4 text-red-500"></i> Camada 2: Regras
-                        </li>
-                        <li class="p-3 rounded-lg flex items-center gap-3 cursor-pointer text-gray-500 opacity-50 cursor-not-allowed">
-                            <i data-lucide="rocket" class="w-4 h-4 text-blue-500"></i> Camada 3: Valor
-                        </li>
-                    </ul>
+<body class="overflow-hidden">
+    <div id="app" class="flex h-screen w-screen overflow-hidden">
+        
+        <aside class="w-72 glass flex flex-col border-r border-white/5 z-50">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-10 group cursor-pointer">
+                    <div class="w-10 h-10 sop-gradient-red rounded-xl flex items-center justify-center shadow-lg shadow-red-500/20">
+                        <i data-lucide="layout-template" class="text-white w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-extrabold tracking-tight">HUB <span class="text-red-500 italic text-xs block -mt-1 uppercase tracking-widest">Blueprint</span></h1>
+                    </div>
                 </div>
 
-                <div>
-                    <h3 class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-4">Visões Técnicas</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li class="p-3 rounded-lg flex items-center gap-3 cursor-pointer hover:bg-white/5 transition-all text-gray-400">
-                            <i data-lucide="users" class="w-4 h-4"></i> Personas & Status
-                        </li>
-                        <li class="p-3 rounded-lg flex items-center gap-3 cursor-pointer hover:bg-white/5 transition-all text-gray-400">
-                            <i data-lucide="layout-grid" class="w-4 h-4"></i> Módulos Ativos
-                        </li>
-                    </ul>
+                <nav class="space-y-1">
+                    <p class="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4">Pipeline SOP</p>
+                    
+                    <div v-for="step in steps" :key="step.id" 
+                         @click="currentStep = step.id"
+                         :class="['flex items-center gap-4 px-4 py-3 rounded-lg cursor-pointer transition-all', currentStep === step.id ? 'sidebar-item-active' : 'hover:bg-white/5 text-gray-400']">
+                        <i :data-lucide="step.icon" class="w-5 h-5" :class="currentStep === step.id ? 'text-red-500' : ''"></i>
+                        <span class="text-sm font-semibold">{{ step.title }}</span>
+                        <i v-if="step.completed" data-lucide="check-circle" class="w-4 h-4 ml-auto text-green-500"></i>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="mt-auto p-6 space-y-4">
+                <div class="p-4 rounded-xl bg-red-500/5 border border-red-500/10">
+                    <p class="text-[10px] text-red-500 font-bold uppercase mb-2">Responsabilidade Atual</p>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                        <span class="text-xs font-medium">Consultor Itarget</span>
+                    </div>
                 </div>
-            </nav>
-        </div>
-
-        <div class="mt-auto p-6 border-t border-white/5 bg-black/40">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                <span class="text-xs text-gray-400">Consultor: Leonardo Dantas</span>
             </div>
-            <button class="w-full py-2 bg-zinc-800 hover:bg-zinc-700 text-xs rounded-md transition-all">Sair do Dashboard</button>
-        </div>
-    </aside>
+        </aside>
 
-    <main class="flex-1 flex flex-col">
-        <header class="h-20 border-b border-white/5 flex items-center justify-between px-10 bg-black/20">
-            <div>
-                <h2 class="text-sm font-medium text-gray-400">Projeto Atual: <span class="text-white font-bold ml-2 italic">Congresso Brasileiro de Odontologia 2026</span></h2>
-            </div>
-            <div class="flex items-center gap-6">
-                <div class="text-right">
-                    <p class="text-[10px] text-gray-500 uppercase tracking-widest leading-none">Status do HUB</p>
-                    <p class="text-sm text-yellow-500 font-bold uppercase">Aguardando Validação do Cliente</p>
-                </div>
-                <button class="px-6 py-2.5 bg-red-600 hover:bg-red-700 rounded-full text-sm font-bold shadow-lg shadow-red-600/20 transition-all active:scale-95">Publicar HUB</button>
-            </div>
-        </header>
-
-        <section class="flex-1 overflow-y-auto p-10 space-y-10">
+        <main class="flex-1 flex flex-col relative overflow-hidden">
             
-            <div class="animate__animated animate__fadeIn">
-                <span class="text-red-500 font-mono text-sm tracking-tighter">[ 🔴 CORE / REGRA ]</span>
-                <h3 class="text-4xl font-bold mt-2">Configuração da Vitrine & Personas</h3>
-                <p class="text-gray-500 mt-4 max-w-2xl text-lg">Defina a inteligência de exibição do HUB. De acordo com o SOP, este nível é obrigatório e exige validação direta do cliente.</p>
-            </div>
+            <header class="h-20 glass border-b border-white/5 flex items-center justify-between px-10">
+                <div class="flex items-center gap-4">
+                    <span class="text-xs text-gray-500 uppercase tracking-widest">Ambiente:</span>
+                    <select class="bg-transparent text-sm font-bold outline-none border-none cursor-pointer">
+                        <option>Configuração Principal</option>
+                        <option>Sandbox Estendido</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="flex -space-x-2">
+                        <div v-for="i in 3" :key="i" class="w-8 h-8 rounded-full border-2 border-black bg-gray-800 flex items-center justify-center text-[10px] font-bold">U{{i}}</div>
+                    </div>
+                    <button class="bg-white text-black px-6 py-2 rounded-full text-xs font-extrabold hover:bg-red-500 hover:text-white transition-all">FINALIZAR SOP</button>
+                </div>
+            </header>
 
-            <div class="grid grid-cols-12 gap-8">
-                
-                <div class="col-span-8 space-y-8">
-                    <div class="glass p-8 rounded-2xl border-white/10">
-                        <div class="flex items-center justify-between mb-8">
-                            <h4 class="text-xl font-bold flex items-center gap-3">
-                                <i data-lucide="clipboard-list" class="text-red-500"></i> Ficha Técnica do HUB
-                            </h4>
-                            <span class="text-[10px] text-gray-500 font-mono uppercase bg-white/5 px-3 py-1 rounded">RACI: Consultor + Cliente</span>
+            <section class="flex-1 overflow-y-auto p-12 bg-[#080808]">
+                <div class="max-w-5xl mx-auto">
+                    
+                    <div class="mb-12 animate__animated animate__fadeIn">
+                        <div class="flex items-center gap-3 mb-2 font-mono text-[11px]">
+                            <span class="text-red-500 font-bold px-2 py-0.5 border border-red-500/30 rounded">CAMADA {{currentStep}}</span>
+                            <span class="text-gray-600">|</span>
+                            <span class="text-gray-400 uppercase tracking-widest">{{ steps[currentStep-1].layer }}</span>
                         </div>
-
-                        <div class="grid grid-cols-2 gap-6">
-                            <div class="flex flex-col">
-                                <label class="text-xs text-gray-500 font-bold mb-2 uppercase tracking-widest">Nome da Vitrine (Display)</label>
-                                <input type="text" placeholder="Ex: HUB Odonto Digital" class="input-dark">
-                            </div>
-                            <div class="flex flex-col">
-                                <label class="text-xs text-gray-500 font-bold mb-2 uppercase tracking-widest">Centro de Custo Global</label>
-                                <select class="input-dark">
-                                    <option>Selecione um centro...</option>
-                                    <option>01 - Entidade Administrativo</option>
-                                    <option>02 - Eventos Comerciais</option>
-                                </select>
-                            </div>
-                            <div class="col-span-2 flex flex-col">
-                                <label class="text-xs text-gray-500 font-bold mb-2 uppercase tracking-widest">URL Final (Domínio HUB)</label>
-                                <div class="flex gap-2">
-                                    <input type="text" value="hub.odontodigital.com.br" class="input-dark flex-1 opacity-60" readonly>
-                                    <button class="px-4 bg-zinc-800 rounded-md text-xs border border-white/10 hover:bg-zinc-700 transition-all">Verificar DNS</button>
-                                </div>
-                            </div>
-                        </div>
+                        <h2 class="text-5xl font-extrabold tracking-tighter">{{ steps[currentStep-1].title }}</h2>
+                        <p class="text-gray-500 mt-4 text-lg leading-relaxed">{{ steps[currentStep-1].desc }}</p>
                     </div>
 
-                    <div class="glass p-8 rounded-2xl border-white/10">
-                        <h4 class="text-xl font-bold mb-8 flex items-center gap-3">
-                            <i data-lucide="user-check" class="text-red-500"></i> Inteligência de Personas
-                        </h4>
+                    <div v-if="currentStep === 2" class="grid grid-cols-12 gap-8 animate__animated animate__fadeInUp">
                         
-                        <div class="space-y-4">
-                            <div class="p-5 bg-white/5 rounded-xl border border-white/5 flex items-center justify-between group hover:border-red-500/30 transition-all">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center font-bold">Q</div>
-                                    <div>
-                                        <p class="font-bold text-white uppercase text-sm">Sócio em Dia (Quite)</p>
-                                        <p class="text-xs text-gray-500">Exibição de preços exclusivos e acesso total ao streaming.</p>
+                        <div class="col-span-8 space-y-8">
+                            <div class="glass p-8 rounded-3xl space-y-8">
+                                <h4 class="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i> Identidade & Fluxo Global
+                                </h4>
+                                
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">Nome da Vitrine (Hotsite)</label>
+                                        <input type="text" v-model="form.name" class="w-full p-4 rounded-xl text-sm" placeholder="Ex: Portal de Eventos Itarget">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">ID do Google Analytics</label>
+                                        <input type="text" class="w-full p-4 rounded-xl text-sm" placeholder="UA-XXXXX-X">
+                                    </div>
+                                    <div class="col-span-2 space-y-2">
+                                        <label class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">URL de Retorno Pós-Pagamento</label>
+                                        <input type="text" class="w-full p-4 rounded-xl text-sm" value="https://hub.entidade.com.br/sucesso">
                                     </div>
                                 </div>
-                                <i data-lucide="check-circle-2" class="text-green-500 w-5 h-5"></i>
                             </div>
 
-                            <div class="p-5 bg-white/5 rounded-xl border border-white/5 flex items-center justify-between group hover:border-red-500/30 transition-all">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center font-bold">D</div>
-                                    <div>
-                                        <p class="font-bold text-white uppercase text-sm">Sócio Inadimplente</p>
-                                        <p class="text-xs text-red-700 font-bold">Impacto: Banner de dívida + Bloqueio de Inscrição.</p>
+                            <div class="glass p-8 rounded-3xl space-y-8">
+                                <div class="flex justify-between items-end">
+                                    <h4 class="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                                        <i data-lucide="cpu" class="w-4 h-4"></i> Configuração de Personas (Regras SOP)
+                                    </h4>
+                                    <span class="text-[10px] text-red-500 font-bold border-b border-red-500/20">Validação do Cliente Obrigatória</span>
+                                </div>
+
+                                <div class="grid grid-cols-1 gap-4">
+                                    <div v-for="persona in personas" :key="persona.id" 
+                                         class="persona-card p-5 glass border border-white/5 rounded-2xl flex items-center justify-between transition-all group">
+                                        <div class="flex items-center gap-4">
+                                            <div :class="['w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg', persona.colorClass]">
+                                                {{ persona.initial }}
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-sm text-white">{{ persona.name }}</p>
+                                                <p class="text-[11px] text-gray-500">{{ persona.rule }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-right flex items-center gap-4">
+                                            <div class="hidden group-hover:block">
+                                                <button class="text-[10px] bg-white/10 px-3 py-1 rounded-full uppercase font-bold hover:bg-red-500 transition-all">Editar Impacto</button>
+                                            </div>
+                                            <label class="relative inline-flex items-center cursor-pointer">
+                                                <input type="checkbox" checked class="sr-only peer">
+                                                <div class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-red-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex gap-3">
-                                    <button class="text-[10px] bg-red-600 px-3 py-1 rounded font-bold uppercase tracking-widest">Sugerir Combo</button>
-                                    <i data-lucide="alert-triangle" class="text-red-500 w-5 h-5"></i>
+                            </div>
+                        </div>
+
+                        <div class="col-span-4 space-y-6">
+                            <div class="glass p-6 rounded-3xl border-l-4 border-red-500">
+                                <h5 class="text-xs font-bold text-white mb-3 uppercase tracking-tighter">Status da Implantação</h5>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between text-[11px]">
+                                        <span class="text-gray-500 font-bold">Complexidade:</span>
+                                        <span class="text-red-500 font-bold">NÍVEL 2 (Core)</span>
+                                    </div>
+                                    <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-red-500 h-full w-2/3"></div>
+                                    </div>
+                                    <p class="text-[10px] text-gray-500 italic leading-relaxed italic">
+                                        "O sistema iCase e iCongresso já estão integrados via Centro de Custo 01. Configure as regras acima para liberar o HUB."
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="glass p-6 rounded-3xl space-y-4">
+                                <p class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">Módulos Conectados</p>
+                                <div v-for="m in ['Associação', 'Cursos', 'Eventos']" class="flex items-center gap-3 p-3 bg-black/50 rounded-xl border border-white/5">
+                                    <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                                    <span class="text-xs font-semibold text-gray-300">{{ m }}</span>
                                 </div>
                             </div>
                         </div>
+
                     </div>
+
                 </div>
-
-                <div class="col-span-4 space-y-6">
-                    <div class="glass p-6 rounded-2xl bg-gradient-to-br from-red-600/10 to-transparent">
-                        <h5 class="text-sm font-bold text-gray-300 mb-4 flex items-center gap-2">
-                            <i data-lucide="info" class="w-4 h-4"></i> Resumo do SOP
-                        </h5>
-                        <p class="text-xs text-gray-400 leading-relaxed">
-                            O consultor está finalizando a camada de <b class="text-red-400">INFRA</b>. O cliente deve validar a <b class="text-red-400">REGRA</b> para liberar o acesso aos módulos de <b class="text-blue-400 text-xs">VALOR (Cashback e Fidelidade)</b>.
-                        </p>
-                        <div class="mt-6 pt-6 border-t border-white/10 space-y-3 text-[10px]">
-                            <div class="flex justify-between">
-                                <span class="text-gray-500 uppercase tracking-widest font-bold">Autonomia:</span>
-                                <span class="text-white font-mono">Alta</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-500 uppercase tracking-widest font-bold">Módulos Contratados:</span>
-                                <span class="text-white font-mono">14 / 22</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass p-6 rounded-2xl border-white/5 opacity-80">
-                        <h5 class="text-sm font-bold text-blue-500 mb-4 flex items-center gap-2 uppercase tracking-widest">
-                            <i data-lucide="award" class="w-4 h-4"></i> Maturidade Digital
-                        </h5>
-                        <p class="text-[10px] text-gray-500 mb-4 uppercase">Sugestões baseadas no contrato</p>
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-3 p-3 bg-black/40 rounded-lg text-xs hover:border-blue-500 border border-transparent transition-all cursor-pointer">
-                                <i data-lucide="gift" class="w-4 h-4 text-blue-500"></i> Ativar Módulo Cashback
-                            </div>
-                            <div class="flex items-center gap-3 p-3 bg-black/40 rounded-lg text-xs hover:border-blue-500 border border-transparent transition-all cursor-pointer">
-                                <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-500"></i> Liberar EAD Nativo
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer class="h-14 border-t border-white/5 px-10 flex items-center justify-between text-[10px] text-gray-500 bg-black/40 uppercase tracking-widest">
-            <div class="flex gap-8">
-                <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-600"></div> Itarget Interno (Consultor)</span>
-                <span class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-blue-600"></div> Cliente (Validação)</span>
-            </div>
-            <div>
-                Protocolo: HUB-SOP-V1-2026-ITX
-            </div>
-        </footer>
-    </main>
+            </section>
+        </main>
+    </div>
 
     <script>
-        lucide.createIcons();
+        const { createApp } = Vue
+        createApp({
+            data() {
+                return {
+                    currentStep: 2,
+                    steps: [
+                        { id: 1, title: 'Infraestrutura', layer: 'CORE / INFRA', icon: 'server', completed: true, desc: 'Configurações de servidor, domínios e integração de banco de dados.' },
+                        { id: 2, title: 'Regras de Negócio', layer: 'CORE / REGRA', icon: 'settings-2', completed: false, desc: 'O coração da vitrine. Aqui definimos como o HUB reage ao status de cada associado.' },
+                        { id: 3, title: 'Valor & Módulos', layer: 'BUSINESS / VALOR', icon: 'rocket', completed: false, desc: 'Potencialize o HUB com cashback, cupons e inteligência de vendas.' }
+                    ],
+                    personas: [
+                        { id: 1, name: 'Sócio Quite / Em Dia', initial: 'Q', rule: 'Exibir preços exclusivos + Acesso a Streaming', colorClass: 'bg-green-500/20 text-green-500' },
+                        { id: 2, name: 'Inadimplente (Débito)', initial: 'D', rule: 'Exibir Banner de Cobrança + Sugerir Combo Anuidade', colorClass: 'bg-red-500/20 text-red-500' },
+                        { id: 3, name: 'Não Associado (Público)', initial: 'P', rule: 'Exibir Botão "Associe-se" + Preço Cheio', colorClass: 'bg-blue-500/20 text-blue-500' }
+                    ],
+                    form: {
+                        name: 'HUB Itarget Tecnologia'
+                    }
+                }
+            },
+            mounted() {
+                lucide.createIcons();
+            },
+            updated() {
+                lucide.createIcons();
+            }
+        }).mount('#app')
     </script>
 </body>
 </html>
