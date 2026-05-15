@@ -3,282 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha de Ativação Estratégica | Itarget HUB</title>
+    <title>Ficha Técnica Completa | Itarget HUB</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #334155; scroll-behavior: smooth; }
-        .sidebar-link:hover { background-color: #f8fafc; color: #ef4444; }
-        .section-card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 2rem; padding: 2.5rem; }
-        .input-field { border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; width: 100%; font-size: 14px; transition: all 0.2s; }
-        .input-field:focus { border-color: #ef4444; outline: none; ring: 2px rgba(239, 68, 68, 0.1); }
-        .checkbox-group { display: flex; items-center: center; gap: 10px; padding: 10px; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
-        .checkbox-group:hover { background: #f8fafc; }
-        .sticky-header { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); border-bottom: 1px solid #e2e8f0; }
-        .sop-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 4px; }
-        .label-infra { background: #fee2e2; color: #991b1b; }
-        .label-regra { background: #fef3c7; color: #92400e; }
-        .label-valor { background: #dbeafe; color: #1e40af; }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1e293b; }
+        .section-box { border-bottom: 2px solid #f1f5f9; padding: 60px 0; }
+        .input-text { border: 1px solid #cbd5e1; border-radius: 4px; padding: 10px; width: 100%; font-size: 14px; }
+        .input-text:focus { border-color: #ef4444; outline: none; }
+        .label-title { font-size: 11px; font-weight: 800; color: #64748b; uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: block; }
+        .check-item { display: flex; align-items: center; gap: 10px; font-size: 14px; padding: 8px 0; }
+        .check-item input { width: 18px; height: 18px; accent-color: #ef4444; cursor: pointer; }
+        .nav-fixed { position: fixed; right: 40px; top: 50%; transform: translateY(-50%); z-index: 100; }
+        .nav-dot { width: 10px; height: 10px; background: #cbd5e1; border-radius: 50%; display: block; margin: 15px 0; }
+        .nav-dot:hover { background: #ef4444; }
+        .itarget-red { color: #ef4444; }
     </style>
 </head>
-<body class="flex">
+<body>
 
-    <aside class="w-72 bg-white border-r border-slate-200 h-screen sticky top-0 overflow-y-auto p-6 hidden lg:block">
-        <div class="mb-8">
-            <img src="https://itarget.com.br/wp-content/uploads/2021/04/logo-itarget.png" alt="Itarget" class="w-32 mb-4">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ativação Hub v1.0</p>
+<div id="app">
+    <header class="w-full py-6 px-12 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-50">
+        <img src="https://itarget.com.br/wp-content/uploads/2021/04/logo-itarget.png" class="w-28">
+        <div class="text-right">
+            <h1 class="text-xs font-black uppercase tracking-tighter">Ficha Técnica de Implantação v3.5</h1>
+            <p class="text-[10px] text-slate-400">Standard Operating Procedure (SOP)</p>
         </div>
-        
-        <nav class="space-y-1">
-            <p class="text-[10px] font-bold text-slate-500 uppercase mb-3">Seções da Ficha</p>
-            <a v-for="(item, index) in menuItems" :key="index" :href="'#' + item.id" class="sidebar-link flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-600 rounded-lg transition-all">
-                <span class="text-xs text-slate-300">{{ index + 1 }}</span> {{ item.label }}
-            </a>
-        </nav>
-    </aside>
+    </header>
 
-    <main id="app" class="flex-1">
-        
-        <header class="sticky-header px-10 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <span class="sop-label label-infra">Ambiente de Implantação</span>
-                <h2 class="font-bold text-slate-800 italic">ID: {{ projetoId }}</h2>
+    <main class="max-w-5xl mx-auto px-6 pb-20">
+
+        <section class="section-box">
+            <h2 class="text-2xl font-black mb-8"><span class="itarget-red">01.</span> DADOS GERAIS DO PROJETO</h2>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="col-span-2">
+                    <span class="label-title">Nome da Entidade</span>
+                    <input type="text" class="input-text">
+                </div>
+                <div>
+                    <span class="label-title">Nome do Projeto/HUB</span>
+                    <input type="text" class="input-text">
+                </div>
+                <div>
+                    <span class="label-title">Responsável Principal</span>
+                    <input type="text" class="input-text">
+                </div>
+                <div>
+                    <span class="label-title">Cargo</span>
+                    <input type="text" class="input-text">
+                </div>
+                <div>
+                    <span class="label-title">E-mail</span>
+                    <input type="email" class="input-text">
+                </div>
             </div>
-            <button class="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-red-700 transition-all shadow-lg shadow-red-200">
-                SALVAR E CONTINUAR
-            </button>
-        </header>
+        </section>
 
-        <div class="max-w-5xl mx-auto p-10">
-            
-            <div class="mb-16 border-b border-slate-200 pb-10">
-                <h1 class="text-4xl font-black text-slate-900 tracking-tighter mb-4">Coleta Estratégica de Implantação</h1>
-                <p class="text-slate-500 text-lg leading-relaxed max-w-3xl">
-                    Bem-vindo à ficha técnica do <strong>HUB Itarget</strong>. Preencha os campos abaixo com as definições de negócio e identidade visual para que nossa equipe de ativação possa parametrizar sua vitrine.
-                </p>
+        <section class="section-box">
+            <h2 class="text-2xl font-black mb-8"><span class="itarget-red">02.</span> IDENTIDADE DIGITAL E DOMÍNIO</h2>
+            <div class="space-y-6">
+                <div>
+                    <span class="label-title">Domínio principal desejado</span>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold">hub.</span>
+                        <input type="text" class="input-text" placeholder="______________________________________">
+                        <span class="font-bold">.com.br</span>
+                    </div>
+                </div>
+                <div>
+                    <span class="label-title">Administração do Domínio</span>
+                    <div class="flex gap-8">
+                        <label class="check-item"><input type="radio" name="adm"> Itarget</label>
+                        <label class="check-item"><input type="radio" name="adm"> Própria Entidade</label>
+                        <label class="check-item"><input type="radio" name="adm"> Terceirizada TI</label>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <section id="dados-gerais" class="section-card">
-                <div class="flex justify-between mb-8">
-                    <h3 class="text-xl font-black flex items-center gap-2"><i data-lucide="info" class="text-red-600"></i> 1. DADOS GERAIS DO PROJETO</h3>
-                    <span class="sop-label label-regra">Camada: Regra</span>
+        <section class="section-box">
+            <h2 class="text-2xl font-black mb-8"><span class="itarget-red">05.</span> REGRAS GERAIS DE ACESSO E LOGIN</h2>
+            <div class="grid grid-cols-2 gap-10">
+                <div>
+                    <span class="label-title">Público da Plataforma</span>
+                    <label class="check-item"><input type="checkbox"> Apenas Pessoa Física (CPF)</label>
+                    <label class="check-item"><input type="checkbox"> Apenas Pessoa Jurídica (CNPJ)</label>
+                    <label class="check-item"><input type="checkbox"> Ambos (PF e PJ)</label>
                 </div>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="col-span-2">
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nome da Entidade</label>
-                        <input type="text" class="input-field" placeholder="Razão Social completa">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nome do Projeto/HUB</label>
-                        <input type="text" class="input-field" placeholder="Ex: Portal do Associado">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Responsável Principal</label>
-                        <input type="text" class="input-field">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">E-mail</label>
-                        <input type="email" class="input-field">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Telefone/WhatsApp</label>
-                        <input type="text" class="input-field">
-                    </div>
+                <div>
+                    <span class="label-title">Métodos de Login</span>
+                    <label class="check-item"><input type="checkbox"> CPF</label>
+                    <label class="check-item"><input type="checkbox"> E-mail</label>
                 </div>
-            </section>
+                <div class="col-span-2">
+                    <span class="label-title">Fluxo de Ativação de Conta</span>
+                    <label class="check-item"><input type="radio" name="ativ"> Enviar e-mail de ativação (Mais seguro)</label>
+                    <label class="check-item"><input type="radio" name="ativ"> Entrar diretamente após cadastro (Menos fricção)</label>
+                </div>
+            </div>
+        </section>
 
-            <section id="dominio" class="section-card">
-                <h3 class="text-xl font-black mb-8 flex items-center gap-2"><i data-lucide="globe" class="text-red-600"></i> 2. IDENTIDADE DIGITAL E DOMÍNIO</h3>
-                <div class="space-y-6">
-                    <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-widest">Domínio principal desejado</label>
-                        <div class="flex items-center gap-2">
-                            <span class="text-slate-400 font-bold">hub.</span>
-                            <input type="text" class="input-field" placeholder="suaentidade">
-                            <span class="text-slate-400 font-bold">.com.br</span>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-4">Administração do DNS</label>
-                        <div class="grid grid-cols-3 gap-4">
-                            <label class="checkbox-group border border-slate-200">
-                                <input type="radio" name="dns" class="w-4 h-4 accent-red-600"> <span>Itarget</span>
-                            </label>
-                            <label class="checkbox-group border border-slate-200">
-                                <input type="radio" name="dns" class="w-4 h-4 accent-red-600"> <span>Própria Entidade</span>
-                            </label>
-                            <label class="checkbox-group border border-slate-200">
-                                <input type="radio" name="dns" class="w-4 h-4 accent-red-600"> <span>Empresa de TI</span>
-                            </label>
-                        </div>
-                    </div>
+        <section class="section-box">
+            <h2 class="text-2xl font-black mb-8"><span class="itarget-red">07.</span> REGRAS FINANCEIRAS E CHECKOUT</h2>
+            <div class="space-y-8">
+                <div>
+                    <span class="label-title">Exibição Financeira no Extrato</span>
+                    <label class="check-item"><input type="radio" name="fin"> Separar taxas de cartão/boleto do valor líquido</label>
+                    <label class="check-item"><input type="radio" name="fin"> Exibir apenas valor bruto total</label>
                 </div>
-            </section>
-
-            <section id="visual" class="section-card">
-                <h3 class="text-xl font-black mb-8 flex items-center gap-2"><i data-lucide="palette" class="text-red-600"></i> 3. IDENTIDADE VISUAL DO HUB</h3>
-                <div class="grid grid-cols-2 gap-10">
-                    <div>
-                        <p class="text-xs font-black text-slate-400 uppercase mb-4 tracking-widest">Materiais Obrigatórios (Upload)</p>
-                        <div class="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:bg-slate-50 cursor-pointer">
-                            <i data-lucide="upload-cloud" class="w-10 h-10 mx-auto text-slate-300 mb-2"></i>
-                            <p class="text-xs text-slate-500 font-bold italic">Anexar Manual, Logo e Banners</p>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Estilo da Vitrine</label>
-                        <select class="input-field">
-                            <option>Manual Institucional</option>
-                            <option>Estilo E-commerce Moderno</option>
-                            <option>Minimalista</option>
-                            <option>Acadêmico / Institucional</option>
-                        </select>
-                        <textarea class="input-field h-24" placeholder="Links de referência visual..."></textarea>
-                    </div>
-                </div>
-            </section>
-
-            <section id="estrutura" class="section-card">
-                <h3 class="text-xl font-black mb-4 flex items-center gap-2"><i data-lucide="layout" class="text-red-600"></i> 4. ESTRUTURA E VITRINE</h3>
-                <p class="text-xs text-slate-400 mb-8 font-bold uppercase tracking-widest">Selecione o que será exibido no HUB</p>
-                <div class="grid grid-cols-3 gap-4">
-                    <label v-for="item in oqueDisponibilizar" :key="item" class="checkbox-group border border-slate-100">
-                        <input type="checkbox" class="w-4 h-4 accent-red-600"> <span class="text-sm font-medium">{{ item }}</span>
-                    </label>
-                </div>
-            </section>
-
-            <section id="associacao" class="section-card bg-slate-50">
-                <div class="flex justify-between mb-8">
-                    <h3 class="text-xl font-black flex items-center gap-2"><i data-lucide="user-plus" class="text-red-600"></i> 6. REGRAS DE ASSOCIAÇÃO</h3>
-                    <span class="sop-label label-valor">Camada: Valor</span>
-                </div>
-                <div class="space-y-8">
-                    <div class="bg-white p-6 rounded-xl border border-slate-200">
-                        <p class="text-sm font-bold mb-4">Aprovação de Novos Associados</p>
-                        <div class="flex gap-10">
-                            <label class="flex items-center gap-2 text-sm"><input type="radio" name="aprov" class="accent-red-600"> Automática</label>
-                            <label class="flex items-center gap-2 text-sm"><input type="radio" name="aprov" class="accent-red-600"> Aguardar Validação Manual</label>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl border border-slate-200">
-                        <p class="text-sm font-bold mb-4">Regularização Financeira (Débitos antigos)</p>
-                        <div class="flex items-center gap-6">
-                            <label class="flex items-center gap-2 text-sm"><input type="radio" name="deb" class="accent-red-600"> Cobrar tudo</label>
-                            <label class="flex items-center gap-2 text-sm"><input type="radio" name="deb" class="accent-red-600"> Limitar quantidade de anos</label>
-                            <input type="number" class="w-20 p-2 border border-slate-200 rounded text-xs" placeholder="Qtd">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="financeiro" class="section-card">
-                <h3 class="text-xl font-black mb-8 flex items-center gap-2"><i data-lucide="credit-card" class="text-red-600"></i> 8. GATEWAYS E MEIOS DE PAGAMENTO</h3>
                 <div class="grid grid-cols-2 gap-8">
-                    <div class="space-y-4">
-                        <label class="block text-xs font-bold text-slate-500 uppercase">Gateway Principal</label>
-                        <select class="input-field">
-                            <option>Vindi / Yapay</option>
-                            <option>Rede</option>
-                            <option>Cielo</option>
-                            <option>Outro</option>
-                        </select>
-                        <input type="text" class="input-field" placeholder="Dados de API / Credenciais">
-                    </div>
-                    <div class="space-y-4">
-                        <label class="block text-xs font-bold text-slate-500 uppercase">Métodos Aceitos</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <label class="flex items-center gap-2 text-sm font-medium"><input type="checkbox" class="accent-red-600"> PIX</label>
-                            <label class="flex items-center gap-2 text-sm font-medium"><input type="checkbox" class="accent-red-600"> Cartão Crédito</label>
-                            <label class="flex items-center gap-2 text-sm font-medium"><input type="checkbox" class="accent-red-600"> Boleto</label>
+                    <div>
+                        <span class="label-title">Lançar movimentação na conta principal?</span>
+                        <div class="flex gap-4">
+                            <label class="check-item"><input type="radio" name="mov"> Sim</label>
+                            <label class="check-item"><input type="radio" name="mov"> Não</label>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <section id="analytics" class="section-card">
-                <h3 class="text-xl font-black mb-8 flex items-center gap-2"><i data-lucide="bar-chart-3" class="text-red-600"></i> 9. TRAQUEAMENTO E ANALYTICS</h3>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="flex flex-col">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-2">Google Analytics (G-XXXX)</label>
-                        <input type="text" class="input-field" placeholder="G-XXXXXXXX">
+                    <div>
+                        <span class="label-title">Parcelamento Máximo</span>
+                        <input type="number" class="input-text" placeholder="Qtd de parcelas">
                     </div>
-                    <div class="flex flex-col">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-2">Google Tag Manager</label>
-                        <input type="text" class="input-field" placeholder="GTM-XXXX">
+                    <div>
+                        <span class="label-title">Valor Mínimo por Parcela</span>
+                        <input type="text" class="input-text" placeholder="R$ 0,00">
                     </div>
-                    <div class="flex flex-col">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-2">Meta Pixel (Facebook)</label>
-                        <input type="text" class="input-field" placeholder="Pixel ID">
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-2">Microsoft Clarity</label>
-                        <input type="text" class="input-field">
+                    <div>
+                        <span class="label-title">Juros do Parcelamento</span>
+                        <label class="check-item"><input type="radio" name="juros"> Absorvido pela entidade</label>
+                        <label class="check-item"><input type="radio" name="juros"> Repassado ao comprador</label>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section id="comercial" class="section-card bg-red-50/30 border-red-100">
-                <h3 class="text-xl font-black mb-8 flex items-center gap-2 text-red-700"><i data-lucide="tag" class="text-red-600"></i> 12. REGRAS COMERCIAIS E CAMPANHAS</h3>
-                <div class="grid grid-cols-3 gap-6">
-                    <label v-for="c in regrasComerciais" :key="c" class="p-4 bg-white border border-red-100 rounded-xl flex items-center gap-3 shadow-sm hover:border-red-400 cursor-pointer transition-all">
-                        <input type="checkbox" class="w-5 h-5 accent-red-600"> <span class="text-sm font-bold text-slate-700">{{ c }}</span>
-                    </label>
+        <section class="section-box">
+            <h2 class="text-2xl font-black mb-8"><span class="itarget-red">10.</span> ESTRUTURA VISUAL DAS SEÇÕES</h2>
+            <div class="grid grid-cols-2 gap-10">
+                <div>
+                    <span class="label-title">Tipos de Blocos Desejados</span>
+                    <div class="grid grid-cols-1 gap-1">
+                        <label v-for="bloco in blocosDesejados" :key="bloco" class="check-item">
+                            <input type="checkbox"> {{ bloco }}
+                        </label>
+                    </div>
                 </div>
-            </section>
-
-            <section id="checklist" class="section-card border-2 border-black">
-                <h3 class="text-xl font-black mb-8">15. CHECKLIST DE ENVIO FINAL</h3>
-                <div class="space-y-3">
-                    <label v-for="check in checklistFinal" :key="check" class="flex items-center gap-4 p-3 bg-slate-50 rounded-lg">
-                        <input type="checkbox" class="w-5 h-5 accent-black">
-                        <span class="text-sm font-semibold">{{ check }}</span>
-                    </label>
+                <div>
+                    <span class="label-title">Layout Preferido</span>
+                    <div class="grid grid-cols-1 gap-1">
+                        <label v-for="layout in layoutsPreferidos" :key="layout" class="check-item">
+                            <input type="radio" name="lay"> {{ layout }}
+                        </label>
+                    </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <footer class="text-center py-10 text-slate-400 text-xs">
-                <p class="font-bold mb-2 uppercase tracking-widest text-slate-500">Observação Técnica</p>
-                <p class="max-w-xl mx-auto italic">As configurações internas de infraestrutura, banco de dados e parametrizações CORE / INFRA são executadas internamente pela equipe Itarget Tecnologia.</p>
-            </footer>
+        <section class="section-box">
+            <h2 class="text-2xl font-black mb-8"><span class="itarget-red">11.</span> COMUNICAÇÃO E AUTOMAÇÃO</h2>
+            <span class="label-title">O HUB poderá enviar:</span>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+                <label v-for="email in emailsAutomáticos" :key="email" class="check-item">
+                    <input type="checkbox"> {{ email }}
+                </label>
+            </div>
+        </section>
 
-        </div>
+        <section class="section-box">
+            <h2 class="text-2xl font-black mb-8"><span class="itarget-red">13.</span> APLICATIVOS E REDIRECIONAMENTOS</h2>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="col-span-2">
+                    <span class="label-title">A entidade possui aplicativo próprio?</span>
+                    <div class="flex gap-10">
+                        <label class="check-item"><input type="radio" name="app"> Sim</label>
+                        <label class="check-item"><input type="radio" name="app"> Não</label>
+                    </div>
+                </div>
+                <div>
+                    <span class="label-title">Link Android (Play Store)</span>
+                    <input type="text" class="input-text" placeholder="https://...">
+                </div>
+                <div>
+                    <span class="label-title">Link iOS (App Store)</span>
+                    <input type="text" class="input-text" placeholder="https://...">
+                </div>
+            </div>
+        </section>
+
+        <section class="section-box border-none">
+            <h2 class="text-2xl font-black mb-8"><span class="itarget-red">14.</span> OBSERVAÇÕES GERAIS</h2>
+            <textarea class="input-text h-40" placeholder="Digite aqui observações adicionais, particularidades de integração ou avisos importantes..."></textarea>
+            
+            <div class="mt-20 p-10 bg-slate-900 text-white rounded-lg">
+                <h3 class="text-xl font-bold mb-4">Finalizar Coleta</h3>
+                <p class="text-slate-400 text-sm mb-8 italic">Certifique-se de que todos os manuais de marca e dados bancários foram anexados no checklist final (Item 15).</p>
+                <button class="w-full py-4 bg-red-600 hover:bg-red-700 font-black uppercase tracking-widest transition-all">Enviar Ficha para Implantação</button>
+            </div>
+        </section>
+
     </main>
+</div>
 
-    <script>
-        const { createApp } = Vue
-        createApp({
-            data() {
-                return {
-                    projetoId: 'HUB-2024-X88',
-                    menuItems: [
-                        { id: 'dados-gerais', label: 'Dados Gerais' },
-                        { id: 'dominio', label: 'Digital & Domínio' },
-                        { id: 'visual', label: 'Identidade Visual' },
-                        { id: 'estrutura', label: 'Estrutura & Vitrine' },
-                        { id: 'associacao', label: 'Associação' },
-                        { id: 'financeiro', label: 'Financeiro' },
-                        { id: 'analytics', label: 'Analytics' },
-                        { id: 'comercial', label: 'Comercial' },
-                        { id: 'checklist', label: 'Checklist Final' }
-                    ],
-                    oqueDisponibilizar: [
-                        'Anuidades', 'Eventos', 'Cursos', 'EAD', 'Streaming', 'Conteúdo Gravado', 'Prova de Título', 'Certificados', 'Cashback', 'Combos'
-                    ],
-                    regrasComerciais: [
-                        'Cashback', 'Cupons de Desconto', 'Combos Promocionais', 'Preços p/ Sócios', 'Preços p/ Não Sócios', 'Regras p/ Inadimplentes'
-                    ],
-                    checklistFinal: [
-                        'Manual da marca enviado', 'Logotipos em PNG', 'Banners Iniciais', 'Dados Bancários validados', 'Credenciais de Gateway enviadas', 'Códigos Analytics configurados'
-                    ]
-                }
-            },
-            mounted() {
-                lucide.createIcons();
+<script>
+    const { createApp } = Vue
+    createApp({
+        data() {
+            return {
+                blocosDesejados: [
+                    'Banner principal (Hero)', 'Carrossel de eventos', 'Cursos em destaque', 
+                    'Área de associados', 'Vitrine EAD', 'Divulgação institucional', 
+                    'Vídeos', 'Palestrantes', 'Trilhas/Temas', 'HTML personalizado'
+                ],
+                layoutsPreferidos: [
+                    'Grid', 'Carrossel', 'Banner único', 'Texto institucional', 
+                    'Cards grandes', 'Cards compactos'
+                ],
+                emailsAutomáticos: [
+                    'E-mails automáticos de boas-vindas', 'Confirmação de inscrição', 
+                    'Recuperação de senha', 'Avisos financeiros', 
+                    'Comunicação promocional', 'Lembretes automáticos'
+                ]
             }
-        }).mount('#app')
-    </script>
+        },
+        mounted() {
+            lucide.createIcons();
+        }
+    }).mount('#app')
+</script>
+
 </body>
 </html>
